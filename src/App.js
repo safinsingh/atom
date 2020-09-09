@@ -69,7 +69,7 @@ class App extends React.Component {
 							.toFixed(3)}
 				</h1>
 				<button onClick={this.newElement.bind(this)}>
-					new element
+					new isotope
 				</button>
 				<br />
 				{Object.keys(this.state.elements).map((e) => (
