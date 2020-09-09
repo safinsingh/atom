@@ -1,26 +1,97 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+	state = {
+		elements: {},
+	};
+
+	newElement() {
+		this.setState({
+			...this.state,
+			elements: {
+				...this.state.elements,
+				[Object.keys(this.state.elements).length + 1]: [
+					{
+						mass: "0",
+						percentage: "0",
+					},
+				],
+			},
+		});
+	}
+
+	onChange(e) {
+		if (e.target.placeholder === "mass") {
+			this.setState({
+				...this.state,
+				elements: {
+					...this.state.elements,
+					[e.target.id]: {
+						...this.state.elements[e.target.id],
+						mass: e.target.value,
+					},
+				},
+			});
+		} else {
+			this.setState({
+				...this.state,
+				elements: {
+					...this.state.elements,
+					[e.target.id]: {
+						...this.state.elements[e.target.id],
+						percentage: e.target.value,
+					},
+				},
+			});
+		}
+	}
+
+	render() {
+		return (
+			<div>
+				<h1>get the atomic mass of an arbitrary atom</h1>
+				<h1>
+					{Object.keys(this.state.elements).length !== 0 &&
+						Object.keys(this.state.elements)
+							.reduce(
+								(a, cv) =>
+									a +
+									parseFloat(
+										this.state.elements[`${cv}`].mass
+									) *
+										parseFloat(
+											this.state.elements[`${cv}`]
+												.percentage
+										) *
+										0.01,
+								0
+							)
+							.toFixed(3)}
+				</h1>
+				<button onClick={this.newElement.bind(this)}>
+					new element
+				</button>
+				<br />
+				{Object.keys(this.state.elements).map((e) => (
+					<>
+						<input
+							value={this.state.elements[`${e}`].mass}
+							placeholder='mass'
+							id={e}
+							onChange={this.onChange.bind(this)}
+						/>
+						<input
+							value={this.state.elements[`${e}`].percentage}
+							placeholder='percentage'
+							id={e}
+							onChange={this.onChange.bind(this)}
+						/>
+						<br />
+					</>
+				))}
+			</div>
+		);
+	}
 }
 
 export default App;
