@@ -61,7 +61,7 @@ class App extends React.Component {
 				<h1>
 					{Object.keys(elements).map((key, index) => (
 						<>
-							{elements[key].mass}*{elements[key].percentage}
+							{elements[key].mass}*{elements[key].percentage}%
 							{Object.keys(elements).length >= 2 &&
 								index + 1 !== Object.keys(elements).length && (
 									<> + </>
